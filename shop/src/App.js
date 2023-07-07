@@ -15,9 +15,12 @@ function App() {
         </Container>
       </Navbar>
 
-      <div>
+      <div className="container">
         {/* style={{ backgroundImage : 'url(' + bg + ')' }} */}
-        <div className="main-bg"></div>
+        {/* <div className="main-bg"></div> */}
+        <div className="main-bg">
+        <img src={process.env.PUBLIC_URL + "./img/nike_main.jpg"} />
+        </div>
       </div>
 
       <div className="container">
@@ -26,14 +29,15 @@ function App() {
             <img src={process.env.PUBLIC_URL + "./img/nike_1.jpg"} />
             <h4>상품명</h4>
             <p>상품설명</p>
-          </div>0
+          </div>
+          0
           <div className="col-md-4">
-          <img src={process.env.PUBLIC_URL + "./img/nike_2.jpg"} />
+            <img src={process.env.PUBLIC_URL + "./img/nike_2.jpg"} />
             <h4>상품명</h4>
             <p>상품설명</p>
           </div>
           <div className="col-md-4">
-          <img src={process.env.PUBLIC_URL + "./img/nike_3.jpg"} />
+            <img src={process.env.PUBLIC_URL + "./img/nike_3.jpg"} />
             <h4>상품명</h4>
             <p>상품설명</p>
           </div>

@@ -4,7 +4,7 @@
 
 .main-bg {
   height: 300px;
-  background-image: url('./img/nike_main.jpg');
+  /* background-image: url('./img/nike_main.jpg'); */
   background-size: cover;
   background-position: center;
 }
