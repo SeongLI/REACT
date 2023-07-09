@@ -1,12 +1,21 @@
+/* 오염방지하려면 컴포넌트.module.css */
+
 .App {
   text-align: center;
 }
 
+.no-underline {
+  text-decoration: none;
+}
+
 .main-bg {
+  margin-top: 100px;
   height: 300px;
-  /* background-image: url('./img/nike_main.jpg'); */
-  background-size: cover;
+  background-image: url("/public/img/nike_main.jpg");
   background-position: center;
+  /* background-size: cover; */
+  background-size: contain;
+  /* background-size: auto; */
 }
 
 .App-logo {
