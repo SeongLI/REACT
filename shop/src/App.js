@@ -1,17 +1,21 @@
 /* eslint-disable */
 
-import { useState } from "react";
+import { createContext, useState } from "react";
 import "./App.css";
 import { Nav, Navbar, Container, Form, Button } from "react-bootstrap";
 import data from "./data.js";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-import Detail from "./routes/Detail";
+import Detail from "./routes/Detail.js";
 import Card from "./component/Card";
 import axios, { Axios } from "axios";
+import Cart from "./routes/Cart.js";
+
+export let Context1 = createContext(); // context를 만들어준다. state 보관함
 
 function App() {
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate(); // 페이지 이동을 도와주는 함수
+  let [재고] = useState([10, 11, 12]);
 
   return (
     <div className="App">
@@ -86,8 +90,6 @@ function App() {
                     .catch(() => {
                       // 로딩중 UI 숨기기
                     });
-
-                    
                 }}
               >
                 더보기
@@ -96,7 +98,16 @@ function App() {
           }
         />
         {/* 페이지 여러개 만들고 싶으면 : URL파라미터 써도 된다!! /detail/아무거나 라는 뜻 */}
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ 재고 }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
+
+        <Route path="/cart" element={<Cart></Cart>} />
       </Routes>
     </div>
   );

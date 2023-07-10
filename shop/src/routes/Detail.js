@@ -1,7 +1,9 @@
-import { Component, useEffect, useState } from "react";
+import { Component, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 // import styled from "styled-components";
+
+import { Context1 } from "./../App.js";
 
 // 팀원과 이야기하기!!
 // let ColorBtn = styled.button`
@@ -11,8 +13,10 @@ import { Nav } from "react-bootstrap";
 // `;
 
 function Detail(props) {
-  let [count, setCount] = useState(0);
+  let 재고 = useContext(Context1); // 보관함 해체
+  console.log(재고);
 
+  let [count, setCount] = useState(0);
   let { id } = useParams();
   let 찾은상품 = props.shoes.find(function (x) {
     return x.id == id;
@@ -20,6 +24,7 @@ function Detail(props) {
   let [alert, setAlert] = useState(true);
   let [num, setNum] = useState("");
   let [tab, setTab] = useState(0);
+  let [fade2, setFade2] = useState("");
 
   useEffect(() => {
     // mount, update 시 실행
@@ -120,13 +125,27 @@ function Detail(props) {
         </Nav.Item>
       </Nav>
 
-      <TabContent tab={tab} />
+      <TabContent shose={props.shoes} tab={tab} />
     </div>
   );
 }
 
-function TabContent({ tab }) {
-  return [<div>내용 0</div>, <div>내용 1</div>, <div>내용 2</div>][tab];
+function TabContent({ tab, shose }) {
+  let [fade, setFade] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFade("end");
+    }, 10);
+    return () => {
+      setFade("");
+    };
+  }, [tab]);
+  return (
+    <div className={"start " + fade}>
+      {[<div>{shose[0].title}</div>, <div>내용 1</div>, <div>내용 2</div>][tab]}
+    </div>
+  );
 }
 
 // function TabContent(props) {
@@ -140,3 +159,7 @@ function TabContent({ tab }) {
 // }
 
 export default Detail;
+
+// props 싫으면
+// 1. Context API (리액트 기본문법)
+// 2. Redux 등 외부라이브러리

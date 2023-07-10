@@ -1,5 +1,23 @@
 /* 오염방지하려면 컴포넌트.module.css */
 
+.start{
+  /* 투명도 주는 스타일 */
+  /* opacity: 0;  */
+
+  /* 작은게 커지는 애니메이션 */
+  transform: scale(0);
+}
+.end{
+  /* opacity: 1; */
+  /* opacity 변결될 때 0.5초에 걸쳐서 변경해주세요. */
+  /* transition: opacity 0.5s; */
+  
+  transform: scale(1);
+  transition: all 0.5s;
+
+}
+
+
 .App {
   text-align: center;
 }
