@@ -2,7 +2,8 @@ import { Component, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 // import styled from "styled-components";
-
+import { addItem } from "../store.js";
+import { useDispatch } from "react-redux";
 import { Context1 } from "./../App.js";
 
 // 팀원과 이야기하기!!
@@ -25,6 +26,19 @@ function Detail(props) {
   let [num, setNum] = useState("");
   let [tab, setTab] = useState(0);
   let [fade2, setFade2] = useState("");
+  let dispatch = useDispatch();
+
+  useEffect(() => {
+    // console.log(찾은상품);
+    // localStorage.setItem('watched', [찾은상품.id])
+    let 꺼냄 = localStorage.getItem("watched");
+    꺼냄 = JSON.parse(꺼냄);
+    꺼냄.push(찾은상품.id);
+    // 중복제거
+    꺼냄 = new Set(꺼냄);
+    꺼냄 = Array.from(꺼냄);
+    localStorage.setItem("watched", JSON.stringify(꺼냄));
+  }, []);
 
   useEffect(() => {
     // mount, update 시 실행
@@ -88,7 +102,14 @@ function Detail(props) {
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              dispatch(addItem({ id: 1, name: "Red Knit", count: 1 }));
+            }}
+          >
+            주문하기
+          </button>
         </div>
       </div>
 

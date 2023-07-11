@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import "./App.css";
 import { Nav, Navbar, Container, Form, Button } from "react-bootstrap";
 import data from "./data.js";
@@ -9,13 +9,28 @@ import Detail from "./routes/Detail.js";
 import Card from "./component/Card";
 import axios, { Axios } from "axios";
 import Cart from "./routes/Cart.js";
+import { useQuery } from "react-query";
 
 export let Context1 = createContext(); // context를 만들어준다. state 보관함
 
 function App() {
+  //  JSON.stringify(obj) / array/object -> JSON 변환
+  // JSON.parse(out) / JSON -> array/object 변환
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify([]));
+  }, []);
+
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate(); // 페이지 이동을 도와주는 함수
   let [재고] = useState([10, 11, 12]);
+
+  let result = useQuery("작명", () => {
+    return axios
+      .get("https://codingapple1.github.io/userdata.json")
+      .then((a) => {
+        return a.data;
+      });
+  });
 
   return (
     <div className="App">
@@ -58,6 +73,13 @@ function App() {
               Search
             </Button>
           </Form>
+
+          <Nav className="ms-auto">
+            {/* {result.isLoading ? "로딩중" : result.data.name} */}
+            {result.isLoading && "로딩중"}
+            {result.error && "에러남"}
+            {result.data && result.data.name}
+          </Nav>
         </Container>
       </Navbar>
 
@@ -147,3 +169,8 @@ export default App;
 // 1. XMLHttpRequest
 // 2. fetch()
 // 3. axios 같은거
+
+// Q. 모든 state를 localStorage에 자동저장?
+// A. redux-persist 찾아보기
+
+// React Query : 실시간 데이터를 가져와야하는 사이트에 유용
