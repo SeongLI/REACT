@@ -1,14 +1,19 @@
 /* eslint-disable */
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, Suspense, lazy, useEffect, useState } from "react";
 import "./App.css";
 import { Nav, Navbar, Container, Form, Button } from "react-bootstrap";
 import data from "./data.js";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-import Detail from "./routes/Detail.js";
+// import Detail from "./routes/Detail.js";
 import Card from "./component/Card";
+
+// 필요해질 때 import 해주세요~ but, 지연시간 발생
+const Detail = lazy(() => import("./routes/Detail.js"));
+const Cart = lazy(() => import("./routes/Cart.js"));
+
 import axios, { Axios } from "axios";
-import Cart from "./routes/Cart.js";
+// import Cart from "./routes/Cart.js";
 import { useQuery } from "react-query";
 
 export let Context1 = createContext(); // context를 만들어준다. state 보관함
@@ -83,54 +88,56 @@ function App() {
         </Container>
       </Navbar>
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="main-bg"></div>
+      <Suspense fallback={<div>로딩중</div>}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="main-bg"></div>
 
-              <div className="container">
-                <div className="row">
-                  {shoes.map((a, i) => {
-                    return <Card shoes={shoes[i]} i={i + 1}></Card>;
-                  })}
+                <div className="container">
+                  <div className="row">
+                    {shoes.map((a, i) => {
+                      return <Card shoes={shoes[i]} i={i + 1}></Card>;
+                    })}
+                  </div>
                 </div>
-              </div>
-              {/* 데이터가져와서 html로 보여주기!! */}
-              <button
-                onClick={() => {
-                  // 로딩중 UI 띄우기
+                {/* 데이터가져와서 html로 보여주기!! */}
+                <button
+                  onClick={() => {
+                    // 로딩중 UI 띄우기
 
-                  axios
-                    .get("https://codingapple1.github.io/shop/data2.json")
-                    .then((결과) => {
-                      let copy = [...shoes, ...결과.data]; // JSON으로 받아오지만, axois가 array로 자동으로 바꿔줌
-                      setShoes(copy);
-                      // 로딩중 UI 숨기기
-                    })
-                    .catch(() => {
-                      // 로딩중 UI 숨기기
-                    });
-                }}
-              >
-                더보기
-              </button>
-            </>
-          }
-        />
-        {/* 페이지 여러개 만들고 싶으면 : URL파라미터 써도 된다!! /detail/아무거나 라는 뜻 */}
-        <Route
-          path="/detail/:id"
-          element={
-            <Context1.Provider value={{ 재고 }}>
-              <Detail shoes={shoes} />
-            </Context1.Provider>
-          }
-        />
+                    axios
+                      .get("https://codingapple1.github.io/shop/data2.json")
+                      .then((결과) => {
+                        let copy = [...shoes, ...결과.data]; // JSON으로 받아오지만, axois가 array로 자동으로 바꿔줌
+                        setShoes(copy);
+                        // 로딩중 UI 숨기기
+                      })
+                      .catch(() => {
+                        // 로딩중 UI 숨기기
+                      });
+                  }}
+                >
+                  더보기
+                </button>
+              </>
+            }
+          />
+          {/* 페이지 여러개 만들고 싶으면 : URL파라미터 써도 된다!! /detail/아무거나 라는 뜻 */}
+          <Route
+            path="/detail/:id"
+            element={
+              <Context1.Provider value={{ 재고 }}>
+                <Detail shoes={shoes} />
+              </Context1.Provider>
+            }
+          />
 
-        <Route path="/cart" element={<Cart></Cart>} />
-      </Routes>
+          <Route path="/cart" element={<Cart></Cart>} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
@@ -174,3 +181,9 @@ export default App;
 // A. redux-persist 찾아보기
 
 // React Query : 실시간 데이터를 가져와야하는 사이트에 유용
+// 장점1. ajax 성공/실패/로딩중 파악 쉬움
+// 장점2. 틈만나면 알아서 ajax 재요청해줌
+// 장점3. 실패시 재시도 알아서 해줌
+// 장점4. ajax로 가져온 결과는 state 공유 필요없음
+
+// 꼭 필요할 때만 재렌더링하려면 memo
