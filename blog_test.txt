@@ -1,0 +1,68 @@
+blog_test
+
+# REACT
+React 연습 공간입니다.
+
+## 0704
+// eslint-disable : Lint 끄는 기능 (경고 메시지 제거)
+
+// 다른 방법
+// let Modal = () => {}
+// const Modal = () => {}
+
+/* css파일 쓰려면 import 'css파일 경로' */
+
+// JSX 문법 : class 넣을 땐 className
+// JSX 문법 : style 넣을 땐 style={{스타일명 : '값' }}
+// fontSize는 카멜케이스로 font-size 이렇게 하면 안된다! '-' 을 '뺄셈'으로 처리
+
+// JSX 문법 : 변수 넣을 땐 {중괄호} = "데이터 바인딩"
+/* ( 다른 방법 )변수에 있던 자료를 html에 넣고 싶으면 */
+// document.querySelector('h4').innerHTML = post;
+
+// ( 자료 잠깐 저장할 때 ) let post = "강남 우동 맛집";
+// 자료 잠깐 저장할 때 : state 가능
+// state 사용법 : 1. import{ useState } 2. useState(보관할 자료) 3.let[작명, 작명] -> 두번째 작명 - state 변경을 도와주는 함수
+// state 쓰는 이유 : (적극 권장) React에서 상태가 변경되면 해당 상태를 사용하는 컴포넌트는 자동으로 리렌더링 된다.
+
+/* JSX 문법 : return"() 안에는 병렬로 태그 2개 이상 기입 금지 */
+
+/* onClick={} 안엔 함수 이름을 넣어야함 */
+/* 함수만드는 문법을 바로 넣어도 상관없음! */
+/* function(){ console.log(1)} */
+/* () => {console.log(1)} */
+
+// state 변경하는 법 => state변경함수(새로운state)
+
+// state 변경함수 특징
+// => 기존 state == 신규 state의 경우 변경 안해준다!
+
+// [... ] : spread operator
+// shallow copy, deep copy
+
+// 컴포넌트 만드는 법
+// 1. function 만들고
+// 2. return() 안에 html 담기
+// 3. <함수명></함수명> 쓰기
+
+// 컴포넌트 만들면 좋은 경우
+// 1. 반복적인 html 축약할 때
+// 2. 큰 페이지들
+// 3. 자주변경되는 것들
+
+// 컴포넌트의 단점
+// 1. state 가져다쓸 때 문제생김
+
+// 의미없는 <div> 대신 <></> 사용가능
+
+// 동적인 UI 만드는 step
+// 1. html css로 미리 디자인완성
+// 2. UI의 현재 상태를 state로 저장
+// 3. state에 따라 UI가 어떻게 보일지 작성 (조건문 등으로)
+
+// map 사용법
+// 1. array 자료 갯수만큼 함수안의 코드 실행해줌
+// 2. 함수의 파라미터는 array안에 있던 자료다.
+// 3. return에 뭐 적으면 array로 담아준다.
+
+// 반복문으로 html생성하면 key={html마다 다른 숫자} 추가해야한다!
